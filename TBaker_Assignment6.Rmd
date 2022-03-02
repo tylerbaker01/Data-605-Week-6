@@ -1,0 +1,194 @@
+---
+title: "Data 605 Assignment 6"
+author: "Tyler Baker"
+date: "3/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. A bag contains 5 green and 7 red jellybeans. How many ways can 5 jellybeans be
+withdrawn from the bag so that the number of green ones withdrawn will be less than
+2?
+
+Ans: There are 2 possibilities:
+5 red, 0 green
+4 red, 1 green
+```{r}
+case_a <- choose(7,5) * choose(5,0)
+case_b <- choose(7,4) * choose(5,1)
+print(case_b + case_a)
+```
+
+2. A certain congressional committee consists of 14 senators and 13 representatives. How
+many ways can a subcommittee of 5 be formed if at least 4 of the members must be
+representatives?
+
+Ans: There are 2 possibilities:
+4 representatives, 1 senator
+5 representaties, 0 senators
+```{r}
+case_a <- choose(13, 4) * choose(14,1)
+case_b <- choose(13,5) * choose(14,0)
+print(case_a + case_b)
+```
+
+3. . If a coin is tossed 5 times, and then a standard six-sided die is rolled 2 times, and finally
+a group of three cards are drawn from a standard deck of 52 cards without
+replacement, how many different outcomes are possible?
+
+Ans:
+```{r}
+coin_tosses <- 2^5
+dice_rolls <- 6^2
+cards_drawn <- 52 * 51 * 50
+print(coin_tosses + dice_rolls + cards_drawn)
+```
+
+4. 3 cards are drawn from a standard deck without replacement. What is the probability
+that at least one of the cards drawn is a 3? Express your answer as a fraction or a
+decimal number rounded to four decimal places.
+
+
+Ans: A/B
+B = Total number of ways to draw 3 cards without replacement.
+A = # of ways the 3 cards have at least one three.
+For A there are a few possibilities:
+case1 = (3, blank, blank) , (blank, 3, blank) , (blank, blank, 3)
+case2 = (3, 3, blank), (3, blank, 3), (blank, 3, 3)
+case3 = (3, 3, 3)
+```{r}
+b <- 52 * 51 * 50
+a <- 7
+print(a/b)
+```
+
+5. Lorenzo is picking out some movies to rent, and he is primarily interested in
+documentaries and mysteries. He has narrowed down his selections to 17
+documentaries and 14 mysteries.
+
+a.  How many different combinations of 5 movies can he rent?
+
+Ans: There's 31 total movies. Therefore,
+```{r}
+print(31 * 30 * 29 * 28 * 27)
+```
+
+b. How many different combinations of 5 movies can he rent if he wants at least
+one mystery?
+
+Ans: There are a few cases to consider.
+case1: there is one mystery
+case2: there is two mystery movies
+case3: there is three mystery movies
+case4: there is four mystery movies
+case5: there is five mystery movies
+```{r}
+case_a <- choose(14, 1) * choose(17, 4)
+case_b <- choose(14, 2) * choose(17, 3)
+case_c <- choose(14,3) * choose(17,2)
+case_d <- choose(14,4) * choose(17,1)
+case_e <- choose(14,5) * choose(17,0)
+print(case_a + case_b + case_c + case_d + case_e)
+```
+
+6. In choosing what music to play at a charity fund raising event, Cory needs to have an
+equal number of symphonies from Brahms, Haydn, and Mendelssohn. If he is setting up
+a schedule of the 9 symphonies to be played, and he has 4 Brahms, 104 Haydn, and 17
+Mendelssohn symphonies from which to choose, how many different schedules are
+possible? Express your answer in scientific notation rounding to the hundredths place.
+
+Ans: Since there are 9 songs and Brahms, Haydn, Mendelssohn needs to be equal amounts, they each need 3 songs played.
+```{r}
+brahms <- choose(4,3)
+haydn <- choose(104,3)
+mendelssohn <- choose(17,4)
+print(brahms + haydn + mendelssohn)
+```
+
+7. An English teacher needs to pick 13 books to put on his reading list for the next school
+year, and he needs to plan the order in which they should be read. He has narrowed
+down his choices to 6 novels, 6 plays, 7 poetry books, and 5 nonfiction books.
+
+a. If he wants to include no more than 4 nonfiction books, how many different
+reading schedules are possible? Express your answer in scientific notation rounding to
+the hundredths place. 
+
+Ans: There are a few cases to consider.
+case1: there are 0 nonfiction books.
+case2: there is 1 nonfiction book.
+case3: there are 2 nonfiction books.
+case4: there are 3 nonfiction books.
+case5: there are 4 nonfiction books.
+
+Since, there are no parameters on the other genres we can say that any of them are possibilities after the nonfiction picks.
+```{r}
+case_a <- choose(5,0) + (16*15*14*13*12*11*10*9*8*7*6*5*4)
+case_b <- choose(5,1) + (16*15*14*13*12*11*10*9*8*7*6*5)
+case_c <- choose(5,2) + (16*15*14*13*12*11*10*9*8*7*6)
+case_d <- choose(5,3) + (16*15*14*13*12*11*10*9*8*7)
+case_e <- choose(5,4) + (16*15*14*13*12*11*10*9*8)
+print(case_a + case_b + case_c + case_d + case_e)
+```
+
+b. If he wants to include all 6 plays, how many different reading schedules are
+possible? Express your answer in scientific notation rounding to the hundredths place.
+
+Ans: There will be 13 spaces where 6 will have to be filled.
+
+After finding out how many ways to put 6 objects into 13 spaces, we can then consider the cases from above.
+Which is choose(13,6)
+
+Note that there will only be 10 books left.
+
+```{r}
+case_a <- choose(13,6) + choose(5,0) + (13*12*11*10*9*8*7)
+case_b <- choose(13,6) + choose(5,1) + (13*12*11*10*9*8)
+case_c <- choose(13,6) + choose(5,2) + (13*12*11*10*9)
+case_d <- choose(13,6) + choose(5,3) + (13*12*11*10)
+case_e <- choose(13,6) + choose(5,4) + 
+  (13*12*11)
+print(case_a  +case_b + case_c + case_d + case_e)
+```
+
+8. Zane is planting trees along his driveway, and he has 5 sycamores and 5 cypress trees to
+plant in one row. What is the probability that he randomly plants the trees so that all 5
+sycamores are next to each other and all 5 cypress trees are next to each other?
+Express your answer as a fraction or a decimal number rounded to four decimal places.
+
+Ans: There are 10 spots total and there are 5 of each tree. The answer will be the # of ways the condition is satisfied divided by the total number of ways the trees could be planted.
+
+There are only two ways that the condition is met. Either all of the sycamores are planted first or all of the cypress are planted first.
+
+The total possible ways to plant the trees is 2^10. This is because each spot could be either a sycamore or a cypress.
+```{r}
+print(2/(2^10))
+```
+
+9. If you draw a queen or lower from a standard deck of cards, I will pay you $4. If not, you
+pay me $16. (Aces are considered the highest card in the deck.)
+
+P(losing) = 8/52
+P(winning) = 44/52
+
+a.  Find the expected value of the proposition. Round your answer to two decimal
+places. Losses must be expressed as negative values
+
+```{r}
+p_winning <- 44/52
+p_losing <- 8/52
+
+e_v <- (p_winning* 4) - (p_losing*16) 
+```
+
+
+b. If you played this game 833 times how much would you expect to win or lose?
+Round your answer to two decimal places. Losses must be expressed as negative
+values.
+
+```{r}
+e_v * 833
+```
+
